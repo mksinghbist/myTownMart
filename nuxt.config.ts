@@ -1,6 +1,10 @@
 // nuxt.config.ts
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
+  ssr: false,
+  nitro: {
+    preset: 'static'
+  },
   devtools: { enabled: true },
   css: ['vuetify/styles',
     '@mdi/font/css/materialdesignicons.css'
