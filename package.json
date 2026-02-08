@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@capacitor/android": "^8.0.2",
     "@capacitor/cli": "^8.0.2",
     "@capacitor/core": "^8.0.2",
     "@mdi/font": "^7.4.47",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "sass": "^1.97.3",
-    "sass-loader": "^16.0.7"
+    "sass-loader": "^16.0.7",
+    "typescript": "^5.9.3"
   }
 }
