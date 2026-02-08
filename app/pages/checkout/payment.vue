@@ -1,10 +1,11 @@
 <script setup>
 import { useCartStore } from '@/stores/cartStore'
-
+import { useOrderStore } from '@/stores/orderStore'
 const cart = useCartStore()
+const order = useOrderStore()
 const { isMobile } = useUseDevices()
 const placeOrder = () => {
-  alert("Order placed successfully!")
+  order.placeOrder(cart.items)
   cart.clearCart()
 }
 </script>

@@ -6,9 +6,7 @@ export const useOrderStore = defineStore('order', {
   }),
 
   actions: {
-
-    placeOrder(cartItems) {
-
+    placeOrder(cartItems: { id: string; title: string; price: number; image: string; size: string; qty: number }[]) {
       const newOrder = {
         id: Date.now(),
         date: new Date().toLocaleDateString(),
@@ -27,7 +25,6 @@ export const useOrderStore = defineStore('order', {
 
     updateStatus(orderId, stepIndex) {
       const order = this.orders.find(o => o.id === orderId)
-
       order.timeline[stepIndex].done = true
       order.status = order.timeline[stepIndex].step
     }

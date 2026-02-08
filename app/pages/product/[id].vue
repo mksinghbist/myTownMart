@@ -1,13 +1,17 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import products from '~/data/product.json'
+import { useCartStore } from '@/stores/cartStore'
+
 const route = useRoute()
 definePageMeta({
   layout: false
 })
 
+const imgPath = '/product/'
 const selectedSize = ref(null)
 const { isMobile } = useUseDevices()
+const cart = useCartStore()
 
 const product = computed(() => {
   return products.find(p => {
@@ -21,6 +25,9 @@ const discount = computed(() => {
       product.value?.originalPrice) * 100
   )
 })
+const addToCard = () => {
+  cart.addToCart(product.value)
+}
 </script>
 <template>
   <NuxtLayout
@@ -38,7 +45,7 @@ const discount = computed(() => {
           v-for="(img, i) in product?.images"
           :key="i"
         >
-          <v-img :src="img" cover />
+          <v-img :src="imgPath + img" cover />
         </v-carousel-item>
       </v-carousel>
 
@@ -140,7 +147,7 @@ const discount = computed(() => {
       <v-bottom-navigation
         class="d-flex align-center gap-2"
       >
-        <v-btn color="grey-lighten-3">
+        <v-btn color="grey-lighten-3" @click="addToCard">
         Add to Cart
         </v-btn>
 

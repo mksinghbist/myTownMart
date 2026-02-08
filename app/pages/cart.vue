@@ -5,7 +5,7 @@ import { useCartStore } from '@/stores/cartStore'
 const { isMobile } = useUseDevices()
 const cart = useCartStore()
 const router = useRouter()
-
+const imgPath = '/product/'
 const goCheckout = () => {
   router.push('/checkout/address')
 }
@@ -36,7 +36,7 @@ const goCheckout = () => {
         <div class="d-flex">
 
           <v-img
-            :src="item.image"
+            :src="imgPath + item.image"
             width="90"
             height="90"
             cover

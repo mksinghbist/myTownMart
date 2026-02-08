@@ -1,4 +1,7 @@
 <script setup>
+import { useCartStore } from '@/stores/cartStore'
+const cart = useCartStore()
+
 const onCartClick = () => {
   navigateTo("/cart")
 }
@@ -32,7 +35,7 @@ const onCartClick = () => {
             <v-icon>mdi-heart-outline</v-icon>
           </v-btn>
 
-          <v-badge content="1" color="pink">
+          <v-badge :content="cart.cartCount ?? 0" color="pink">
             <v-btn icon  @click="onCartClick">
               <v-icon>mdi-cart-outline</v-icon>
             </v-btn>
