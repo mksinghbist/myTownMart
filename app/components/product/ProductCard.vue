@@ -1,3 +1,30 @@
+<script setup>
+import { ref, computed } from 'vue'
+const path = '/product/'
+const props = defineProps({
+  product: Object
+})
+
+const activeImage = ref(0)
+const wishlisted = ref(false)
+
+const toggleWishlist = () => {
+  wishlisted.value = !wishlisted.value
+}
+
+const discount = computed(() => {
+  return Math.round(
+    ((props.product.originalPrice - props.product.price) /
+      props.product.originalPrice) * 100
+  )
+})
+
+const router = useRouter()
+
+const openProduct = () => {
+  router.push(`/product/${props.product.id}`)
+}
+</script>
 <template>
   <v-card
     class="mx-auto"
@@ -9,7 +36,7 @@
     <div class="position-relative">
 
       <v-img
-        :src="product.images[activeImage]"
+        :src="path + product.images[activeImage]"
         height="180"
         cover
       />
@@ -112,35 +139,6 @@
     </v-card-text>
   </v-card>
 </template>
-
-<script setup>
-import { ref, computed } from 'vue'
-
-const props = defineProps({
-  product: Object
-})
-
-const activeImage = ref(0)
-const wishlisted = ref(false)
-
-const toggleWishlist = () => {
-  wishlisted.value = !wishlisted.value
-}
-
-const discount = computed(() => {
-  return Math.round(
-    ((props.product.originalPrice - props.product.price) /
-      props.product.originalPrice) * 100
-  )
-})
-
-const router = useRouter()
-
-const openProduct = () => {
-  router.push(`/product/${props.product.id}`)
-}
-</script>
-
 <style scoped>
 .position-relative {
   position: relative;

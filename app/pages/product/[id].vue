@@ -1,5 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router'
+import products from '~/data/product.json'
 const route = useRoute()
 definePageMeta({
   layout: false
@@ -8,28 +9,16 @@ definePageMeta({
 const selectedSize = ref(null)
 const { isMobile } = useUseDevices()
 
-const product = {
-  id: route.params.id,
-  title: "Fancy Women Blouse",
-  price: 130,
-  originalPrice: 147,
-  rating: 4.1,
-  ratingCount: 7504,
-  vendor: "Meesho Seller Pvt Ltd",
-  description:
-    "Beautiful designer blouse made with premium fabric. Comfortable for daily wear and parties.",
-  sizes: ["S", "M", "L", "XL"],
-  images: [
-    "https://picsum.photos/400/500",
-    "https://picsum.photos/401/500",
-    "https://picsum.photos/402/500"
-  ]
-}
+const product = computed(() => {
+  return products.find(p => {
+    return p.id == route.params.id
+  })
+})
 
 const discount = computed(() => {
   return Math.round(
-    ((product.originalPrice - product.price) /
-      product.originalPrice) * 100
+    ((product.value?.originalPrice - product.value?.price) /
+      product.value?.originalPrice) * 100
   )
 })
 </script>
@@ -39,7 +28,6 @@ const discount = computed(() => {
     :hide-footer="true"
   >
     <v-container fluid class="pa-0 product-page">
-
       <!-- IMAGE SLIDER -->
       <v-carousel
         height="320"
@@ -47,7 +35,7 @@ const discount = computed(() => {
         show-arrows="hover"
       >
         <v-carousel-item
-          v-for="(img, i) in product.images"
+          v-for="(img, i) in product?.images"
           :key="i"
         >
           <v-img :src="img" cover />
@@ -60,7 +48,7 @@ const discount = computed(() => {
         show-arrows
       >
         <v-slide-group-item
-          v-for="(img, i) in product.images"
+          v-for="(img, i) in product?.images"
           :key="i"
         >
           <v-img
@@ -77,18 +65,18 @@ const discount = computed(() => {
 
         <!-- TITLE -->
         <div class="text-subtitle-1 font-weight-medium">
-          {{ product.title }}
+          {{ product?.title }}
         </div>
 
         <!-- RATING -->
         <div class="mt-1">
           <v-chip color="green" size="small">
-            {{ product.rating }}
+            {{ product?.rating }}
             <v-icon size="14" class="ml-1">mdi-star</v-icon>
           </v-chip>
 
           <span class="text-caption ml-2 text-grey">
-            ({{ product.ratingCount }} Ratings)
+            ({{ product?.ratingCount }} Ratings)
           </span>
         </div>
 
@@ -96,11 +84,11 @@ const discount = computed(() => {
         <div class="mt-3 d-flex align-center">
 
           <span class="text-h6 font-weight-bold mr-2">
-            ₹{{ product.price }}
+            ₹{{ product?.price }}
           </span>
 
           <span class="text-caption text-grey text-decoration-line-through mr-2">
-            ₹{{ product.originalPrice }}
+            ₹{{ product?.originalPrice }}
           </span>
 
           <span class="text-green-darken-2 font-weight-bold">
@@ -110,7 +98,7 @@ const discount = computed(() => {
         </div>
 
         <div class="text-caption text-grey">
-          ₹{{ product.originalPrice }} with COD
+          ₹{{ product?.originalPrice }} with COD
         </div>
 
         <div class="text-caption mt-1">
@@ -130,7 +118,7 @@ const discount = computed(() => {
           selected-class="bg-primary text-white"
         >
           <v-chip
-            v-for="size in product.sizes"
+            v-for="size in product?.sizes"
             :key="size"
           >
             {{ size }}
