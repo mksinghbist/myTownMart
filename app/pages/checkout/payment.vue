@@ -7,6 +7,7 @@ const { isMobile } = useUseDevices()
 const placeOrder = () => {
   order.placeOrder(cart.items)
   cart.clearCart()
+  navigateTo('/')
 }
 </script>
 
@@ -33,7 +34,7 @@ const placeOrder = () => {
 
         <div class="d-flex justify-space-between font-weight-bold">
           <span>Total</span>
-          <span>₹{{ cart.totalPrice }}</span>
+          <span>₹{{ cart.totalAmount }}</span>
         </div>
 
       </v-card>

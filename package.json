@@ -1,10 +1,12 @@
 {
-  "name": "myTownMart",
+  "name": "mytownmart",
   "type": "module",
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --dotenv .env.dev",
+    "prod": "nuxt dev --dotenv .env.prod",
+    "start": "nuxt start",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -15,6 +17,7 @@
     "@capacitor/core": "^8.0.2",
     "@mdi/font": "^7.4.47",
     "@pinia/nuxt": "^0.11.3",
+    "dotenv": "^17.3.1",
     "nuxt": "^4.3.0",
     "pinia": "^3.0.4",
     "pinia-plugin-persistedstate": "^4.7.1",
@@ -22,7 +25,9 @@
     "vue": "^3.5.27",
     "vue-i18n": "^11.2.8",
     "vue-router": "^4.6.4",
-    "vuetify": "^3.11.8"
+    "vuetify": "^3.11.8",
+    "xlsx": "^0.18.5",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "sass": "^1.97.3",

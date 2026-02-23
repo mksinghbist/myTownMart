@@ -1,14 +1,5 @@
 import { defineStore } from 'pinia'
-
-interface CartItem {
-  id: string
-  title: string
-  price: number
-  image: string
-  size: string
-  qty: number
-}
-
+import type { CartItem } from '~/domain/interface/common/common';
 export const useCartStore = defineStore('cart', {
   state: () => ({
     items: [] as CartItem[]
@@ -19,7 +10,7 @@ export const useCartStore = defineStore('cart', {
       state.items.reduce((t, i) => t + i.qty, 0),
     cartCount: (state) =>
       state.items.length,
-    totalPrice: (state) =>
+    totalAmount: (state) =>
       state.items.reduce((t, i) => t + i.qty * i.price, 0)
   },
 

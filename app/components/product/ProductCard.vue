@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import addToCart from '../addToCard/addToCart.vue'
 const path = '/product/'
 const props = defineProps({
   product: Object
@@ -24,21 +24,22 @@ const router = useRouter()
 const openProduct = () => {
   router.push(`/product/${props.product.id}`)
 }
+const handleAddToCard = () => {
+
+}
 </script>
 <template>
   <v-card
     class="mx-auto"
     rounded="lg"
     elevation="1"
-    @click="openProduct"
   >
     <!-- IMAGE AREA -->
-    <div class="position-relative">
+    <div class="position-relative" @click="openProduct">
 
       <v-img
         :src="path + product.images[activeImage]"
         height="180"
-        cover
       />
 
       <!-- Wishlist -->
@@ -57,7 +58,7 @@ const openProduct = () => {
 
     <!-- IMAGE STRIP -->
     <v-slide-group
-      v-if="product.images.length > 0"
+      v-if="product.images.length > 1"
       show-arrows
       class="px-2 pt-1"
     >
@@ -66,7 +67,7 @@ const openProduct = () => {
         :key="i"
       >
         <v-img
-          :src="img"
+          :src="path + img"
           width="40"
           height="40"
           cover
@@ -75,7 +76,6 @@ const openProduct = () => {
         />
       </v-slide-group-item>
     </v-slide-group>
-
     <!-- PRODUCT DETAILS -->
     <v-card-text class="pa-2">
 
@@ -137,6 +137,9 @@ const openProduct = () => {
       </span>
 
     </v-card-text>
+    <v-card-actions>
+      <addToCart :product="product"/>
+    </v-card-actions>
   </v-card>
 </template>
 <style scoped>

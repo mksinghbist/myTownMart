@@ -39,7 +39,6 @@ const goCheckout = () => {
             :src="imgPath + item.image"
             width="90"
             height="90"
-            cover
             class="rounded"
           />
 
@@ -99,7 +98,7 @@ const goCheckout = () => {
 
         <div class="d-flex justify-space-between mt-2">
           <span>Total Price</span>
-          <span>₹{{ cart.totalPrice }}</span>
+          <span>₹{{ cart.totalAmount }}</span>
         </div>
 
       </v-card>
