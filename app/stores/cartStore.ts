@@ -11,11 +11,13 @@ export const useCartStore = defineStore('cart', {
     cartCount: (state) =>
       state.items.length,
     totalAmount: (state) =>
-      state.items.reduce((t, i) => t + i.qty * i.price, 0)
+      state.items.reduce((t, i) => t + i.qty * i.price, 0),
+    cartItems: (state) => state.items
   },
 
   actions: {
     addToCart(product: { id: any; title: any; price: any; images: any[] }, size: any) {
+      console.log('product afding')
       const existing = this.items.find(
         (i) => i.id === product.id && i.size === size
       )
@@ -33,18 +35,24 @@ export const useCartStore = defineStore('cart', {
       }
     },
 
-    increaseQty(item: CartItem) {
-      item.qty++
+    increaseQty(id: string | number) {
+      const item = this.items?.find(i => i.id === id)
+      if (item) item.qty++
     },
 
-    decreaseQty(item: CartItem) {
-      if (item.qty > 1) item.qty--
+    decreaseQty(id: string | number) {
+      const index = this.items.findIndex(i => i.id === id)
+      if (index !== -1) {
+        this.items[index].qty--
+        if (this.items[index].qty === 0) {
+          this.items.splice(index, 1)
+        }
+      }
     },
-
     removeItem(index: number) {
-      this.items.splice(index, 1)
+        console.log('removing')
+        this.items.splice(index, 1)
     },
-
     clearCart() {
       this.items = []
     }

@@ -1,46 +1,40 @@
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useCartStore } from '@/stores/cartStore'
-import type { CartItem } from '~/domain/interface/common/common';
+import type { CartItem } from '~/domain/interface/common/common'
+
 const props = defineProps<{
   product: CartItem
-  modelValue?: number
-  max?: number
 }>()
 
 const cart = useCartStore()
-const productData = reactive(props.product)
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: number): void
-}>()
 
-const qty = ref(props.modelValue ?? 0)
-const enableAddToCart = computed(() => qty.value == 0)
-watch(qty, (val) => emit('update:modelValue', val))
+/* derive qty from store */
+const qty = computed(() => {
+  const item = cart.items.find(i => i.id === props.product.id)
+  return item?.qty ?? 0
+})
+
+const showAddButton = computed(() => qty.value === 0)
 
 const add = () => {
-  qty.value++
-  cart.addToCart(props.product, qty.value)
+  cart.addToCart(props.product, 1)
 }
+
 const increment = () => {
-  if (!props.max || qty.value < props.max) {
-    productData.qty = qty.value
-    qty.value++
-    cart.increaseQty(props.product)
-  }
+  cart.increaseQty(props.product?.id)
 }
+
 const decrement = () => {
-  productData.qty = qty.value
-  qty.value = qty.value > 1 ? qty.value - 1 : 0
-  cart.decreaseQty(props.product)
+  cart.decreaseQty(props.product?.id)
 }
 </script>
 <template>
   <div class="d-flex align-center">
     <!-- ADD BUTTON -->
     <v-btn
-      v-if="enableAddToCart"
+      v-if="showAddButton"
       color="primary"
       size="small"
       variant="flat"

@@ -14,14 +14,13 @@ const onCartClick = () => {
     height="175"
   >
     <div class="w-100">
-
+      {{ cart?.totalItems }}
       <!-- Top Greeting Row -->
       <div class="d-flex justify-space-between align-center px-3 pt-2">
         <div class="d-flex align-center">
-          <v-avatar size="38">
+          <v-avatar size="38" @click="navigateTo('/')">
             <v-img src="https://i.pravatar.cc/100" />
           </v-avatar>
-
           <div class="ml-2">
             <div class="text-caption text-grey">Hello,</div>
             <div class="text-subtitle-2 font-weight-medium">

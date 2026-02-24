@@ -61,14 +61,14 @@ const goCheckout = () => {
 
               <v-btn
                 size="small"
-                @click="cart.decreaseQty(item)"
+                @click="cart.decreaseQty(item?.id)"
               >-</v-btn>
 
               <span class="mx-3">{{ item.qty }}</span>
 
               <v-btn
                 size="small"
-                @click="cart.increaseQty(item)"
+                @click="cart.increaseQty(item?.id)"
               >+</v-btn>
 
               <v-spacer />
