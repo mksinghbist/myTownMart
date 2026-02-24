@@ -14,7 +14,6 @@ const onCartClick = () => {
     height="175"
   >
     <div class="w-100">
-      {{ cart?.totalItems }}
       <!-- Top Greeting Row -->
       <div class="d-flex justify-space-between align-center px-3 pt-2">
         <div class="d-flex align-center">

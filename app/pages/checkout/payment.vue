@@ -1,55 +1,57 @@
-<script setup>
+<script setup lang="ts">
 import { useCartStore } from '@/stores/cartStore'
 import { useOrderStore } from '@/stores/orderStore'
 const cart = useCartStore()
 const order = useOrderStore()
 const { isMobile } = useUseDevices()
+const alert = ref({
+  show: false,
+  type: 'success' as 'success' | 'error' | 'warning',
+  title: '',
+  message: '',
+})
+
+const showSuccess = () => {
+  alert.value = {
+    show: true,
+    type: 'success',
+    title: 'Order Placed',
+    message: 'Your order has been placed successfully!',
+  }
+}
 const placeOrder = () => {
+  console.log('clicking order')
   order.placeOrder(cart.items)
+  showSuccess()
+}
+const redirectDashboard = () => {
   cart.clearCart()
   navigateTo('/')
 }
+
+const transformedItems = computed(() => 
+  cart.items.map(item => ({
+    id: Number(item.id),
+    title: item.title,
+    qty: item.qty,
+    price: item.price,
+  }))
+)
 </script>
 
 <template>
   <nuxt-layout
     :name="isMobile ? 'mobile' : 'default'"
-  >
-    <v-container>
-
-      <h3>Order Summary</h3>
-
-      <v-card class="pa-3 mt-3">
-
-        <div
-          v-for="item in cart.items"
-          :key="item.id"
-          class="d-flex justify-space-between"
-        >
-          <span>{{ item.title }} x {{ item.qty }}</span>
-          <span>₹{{ item.qty * item.price }}</span>
-        </div>
-
-        <v-divider class="my-2" />
-
-        <div class="d-flex justify-space-between font-weight-bold">
-          <span>Total</span>
-          <span>₹{{ cart.totalAmount }}</span>
-        </div>
-
-      </v-card>
-
-      <!-- PAYMENT BUTTON -->
-      <v-btn
-        block
-        size="large"
-        color="green"
-        class="mt-4 text-white"
-        @click="placeOrder"
-      >
-        Place Order
-      </v-btn>
-
-    </v-container>
+  > 
+    <div>
+      <payment-summary :items="transformedItems" :isCOD="true" @place-order="placeOrder"/>
+    </div>
+      <LazyModalsAppAlertDialog
+        v-model="alert.show"
+        :type="alert.type"
+        :title="alert.title"
+        :message="alert.message"
+        @ok="redirectDashboard"
+      />
   </nuxt-layout>  
 </template>
