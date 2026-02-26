@@ -1,6 +1,8 @@
 <script setup>
 import { useOrderStore } from '@/stores/orderStore'
-
+definePageMeta({
+  layout: false
+})
 const orders = useOrderStore()
 const router = useRouter()
 const { isMobile } = useUseDevices()

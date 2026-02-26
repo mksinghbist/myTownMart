@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: false
+})
 import { useCartStore } from '@/stores/cartStore'
 import { useOrderStore } from '@/stores/orderStore'
 const cart = useCartStore()

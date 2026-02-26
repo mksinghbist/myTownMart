@@ -43,45 +43,12 @@ const onCartClick = () => {
 
       <!-- Search Bar -->
       <div class="px-3 pb-2 pt-2">
-        <v-text-field
-          density="comfortable"
-          variant="outlined"
-          hide-details
-          rounded="xl"
-          prepend-inner-icon="mdi-magnify"
-          append-inner-icon="mdi-microphone-outline"
-          placeholder="Search by Keyword or Product ID"
-        />
+        <search-auto-suggest />
       </div>
 
       <!-- Filter Row -->
       <v-divider />
-
-      <div class="d-flex text-center filter-row">
-        <v-btn variant="text" block>
-          ↑↓ Sort
-        </v-btn>
-
-        <v-divider vertical />
-
-        <v-btn variant="text" block>
-          Category
-          <v-icon size="16" class="ml-1">mdi-chevron-down</v-icon>
-        </v-btn>
-
-        <v-divider vertical />
-
-        <v-btn variant="text" block>
-          Gender
-          <v-icon size="16" class="ml-1">mdi-chevron-down</v-icon>
-        </v-btn>
-
-        <v-divider vertical />
-
-        <v-btn variant="text" block>
-          Filters
-        </v-btn>
-      </div>
+      <common-filter-bar></common-filter-bar>
     </div>
   </v-app-bar>
 </template>

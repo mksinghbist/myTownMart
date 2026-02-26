@@ -1,4 +1,7 @@
 <script setup>
+definePageMeta({
+  layout: false
+})
 import { useRoute } from 'vue-router'
 import { useOrderStore } from '@/stores/orderStore'
 

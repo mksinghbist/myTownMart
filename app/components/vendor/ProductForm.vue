@@ -90,7 +90,11 @@ function submitProduct() {
                     <ImageUploader v-model="form.images" />
                 </v-col>
             </v-row>
-            <div class="d-flex justify-center ga-4">
+            <v-divider
+                thickness="8"
+                color="black"
+            />
+            <div class="d-flex justify-center ga-4 mt-4">
                 <v-btn color="primary" @click="closedDialog">
                     Close
                 </v-btn>

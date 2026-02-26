@@ -1,6 +1,4 @@
-<script setup>
-import { useRoute } from 'vue-router'
-const route = useRoute()
+<script setup lang="ts">
 defineProps({
   hideFooter: {
     type: Boolean,
@@ -30,7 +28,7 @@ defineProps({
 .mobile-main {
   padding-top: 175px;   /* Header height */
   padding-bottom: 65px; /* Footer height */
-  background: #f5f5f5;
+  background: rgb(var(--v-theme-primary), 0.25);
   min-height: 100vh;
 }
 </style>

@@ -1,48 +1,57 @@
-<script lang="ts" setup>
-import { VDialog } from 'vuetify/components';
-import type { VDialog as TDialog } from 'vuetify/components';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { VDialog } from 'vuetify/components'
+import type { VDialog as TDialog } from 'vuetify/components'
 
-type TLocation = TDialog['$props']['location'] 
+type TLocation = TDialog['$props']['location']
+
 export interface Props {
+  modelValue: boolean
   absolute?: boolean
   height?: string | number
-  modelValue?: boolean
-  location?: TLocation
-  openOnClick?: boolean
-  persistent?: boolean
-  scrim?: boolean | string
   width?: string | number
   maxWidth?: string | number
-  border?: string
-  onClickAnimation?: boolean
+  location?: TLocation
+  persistent?: boolean
+  scrim?: boolean | string
   attach?: boolean | string | Element
 }
 
-withDefaults(defineProps<Props>(), {
-  location: 'bottom',
-  absolute: true,
+const props = withDefaults(defineProps<Props>(), {
+  location: 'center',
   persistent: true,
-  onClickAnimation: true
-})  
+  absolute: true,
+})
 
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: boolean): void
+}>()
+
+const dialogModel = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val),
+})
+
+defineExpose({
+  close: () => emit('update:modelValue', false),
+})
 </script>
+
 <template>
   <v-dialog
-    v-bind="{ ...$attrs, ...$props, style: {} }"
-    class="position-fixed"
+    v-model="dialogModel"
+    :location="location"
+    :persistent="persistent"
+    :scrim="scrim"
+    :height="height"
+    :width="width"
+    :max-width="maxWidth"
+    :attach="attach"
+    class="dialogbox"
   >
-    <slot name="dialogComponent" />
+    <slot />
   </v-dialog>
 </template>
 
-<style lang="scss" scoped>
-  .v-dialog--fullscreen:deep(>.v-dialog__content) {
-    left: 0 !important;
-    right: 0 !important;
-    margin: 0 auto !important;
-  }
-  .dialogbox .v-overlay__content {
-    bottom: 0 !important;
-    align-items: center !important;
-  }
+<style scoped lang="scss">
 </style>

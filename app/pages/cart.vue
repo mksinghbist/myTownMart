@@ -2,6 +2,9 @@
 import { useRouter } from 'vue-router'
 import { useCartStore } from '@/stores/cartStore'
 
+definePageMeta({
+  layout: false
+})
 const { isMobile } = useUseDevices()
 const cart = useCartStore()
 const router = useRouter()
