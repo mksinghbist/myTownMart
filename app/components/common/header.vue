@@ -31,7 +31,7 @@ const onCartClick = () => {
       </v-col>
 
       <!-- RIGHT SECTION -->
-        <div class="d-flex align-center">
+        <div class="d-flex align-center pr-2">
           <v-btn icon>
             <v-icon>mdi-heart-outline</v-icon>
           </v-btn>

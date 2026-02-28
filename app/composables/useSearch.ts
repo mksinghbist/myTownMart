@@ -1,4 +1,6 @@
 import { useSearchStore } from '@/stores/searchStore'
+import { onBeforeUnmount } from 'vue'
+
 export const useSearch = () => {
   const store = useSearchStore()
 
@@ -8,7 +10,7 @@ export const useSearch = () => {
   const onSearch = (val: string) => {
     store.search = val
 
-    if (val.length < 3) {
+    if (val?.length < 3) {
       store.items = []
       return
     }
@@ -32,10 +34,21 @@ export const useSearch = () => {
       ? text.replace(new RegExp(store.search, 'gi'), m => `<strong>${m}</strong>`)
       : text
 
+  // Cleanup when component unmounts
+  const cleanup = () => {
+    clearTimeout(debounceTimer)
+    controller?.abort()
+    controller = null
+  }
+
+  // Auto cleanup on component unmount
+  onBeforeUnmount(cleanup)
+
   return {
     store,
     onSearch,
     onEnter,
-    highlight
+    highlight,
+    cleanup
   }
 }

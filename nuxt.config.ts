@@ -33,7 +33,9 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify']
   },
-
+   plugins: [
+    '~/plugins/errorHandler.client.ts'
+  ],
   vite: {
     define: { 'process.env.DEBUG': false }
   },

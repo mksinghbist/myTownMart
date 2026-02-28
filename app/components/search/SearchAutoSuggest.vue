@@ -1,9 +1,51 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import { useSearch } from '@/composables/useSearch'
 
 const { store, onSearch, onEnter, highlight } = useSearch()
-</script>
 
+const isListening = ref(false)
+let recognition: any = null
+
+onMounted(() => {
+  const SpeechRecognition =
+    (window as any).SpeechRecognition ||
+    (window as any).webkitSpeechRecognition
+
+  if (SpeechRecognition) {
+    recognition = new SpeechRecognition()
+    recognition.lang = 'en-IN' // Change if needed
+    recognition.continuous = false
+    recognition.interimResults = false
+
+    recognition.onstart = () => {
+      isListening.value = true
+    }
+
+    recognition.onend = () => {
+      isListening.value = false
+    }
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript
+      store.search = transcript
+      onSearch(transcript)
+    }
+
+    recognition.onerror = () => {
+      isListening.value = false
+    }
+  }
+})
+
+const startVoiceSearch = () => {
+  if (!recognition) {
+    alert('Voice search not supported in this browser')
+    return
+  }
+  recognition.start()
+}
+</script>
 <template>
   <div class="px-3 pb-2 pt-2">
     <v-autocomplete
@@ -20,11 +62,22 @@ const { store, onSearch, onEnter, highlight } = useSearch()
       hide-details
       no-filter
       prepend-inner-icon="mdi-magnify"
-      append-inner-icon="mdi-microphone-outline"
       placeholder="Search by Keyword or Product ID"
       @update:search="onSearch"
       @keydown.enter.prevent="onEnter"
     >
+
+      <!-- 🎤 Voice Icon -->
+      <template #append-inner>
+        <v-icon
+          :color="isListening ? 'red' : ''"
+          @click="startVoiceSearch"
+          style="cursor: pointer"
+        >
+          {{ isListening ? 'mdi-microphone' : 'mdi-microphone-outline' }}
+        </v-icon>
+      </template>
+
       <!-- 🔎 Highlight match -->
       <template #item="{ props, item }">
         <v-list-item v-bind="props">
@@ -33,6 +86,7 @@ const { store, onSearch, onEnter, highlight } = useSearch()
           />
         </v-list-item>
       </template>
+
     </v-autocomplete>
   </div>
 </template>
