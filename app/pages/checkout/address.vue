@@ -8,13 +8,19 @@ const router = useRouter()
 const showDialog = ref(false)
 const editAddress = ref(null)
 const addresses = ref<any[]>([])
+const isSelectedId = ref(false)
 
 const openAdd = () => {
   editAddress.value = null
   showDialog.value = true
-  console.log("I am here")
 }
-
+const selectedAddress = (id: number) => {
+    if(!id) {
+      isSelectedId.value = false
+      return
+    }
+    isSelectedId.value = true
+} 
 const openEdit = (address: any) => {
   editAddress.value = address
   showDialog.value = true
@@ -33,7 +39,7 @@ const saveAddress = (data: any) => {
 }
 
 const goPayment = () => {
-  if (!selected.value) return alert("Select address")
+  if (!isSelectedId) return alert("Select address")
   router.push('/checkout/payment')
 }
 </script>
@@ -45,8 +51,19 @@ const goPayment = () => {
         :addresses="addresses"
         @add="openAdd"
         @edit="openEdit"
-        @select=""
+        @select="selectedAddress"
       />
+      <div v-if="isSelectedId">
+      <v-btn
+        block
+        size="large"
+        color="pink"
+        class="mt-4 text-white"
+        @click="goPayment"
+      >
+        Proceed to Checkout
+      </v-btn>
+      </div>
     </v-container>
     <LazyModalsFromAddress
         v-if="showDialog" 

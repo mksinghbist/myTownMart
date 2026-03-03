@@ -1,6 +1,6 @@
 import { ofetch } from 'ofetch'
 import type { ApiResponse } from '~/domain/interface/common/ApiResponse'
-
+const { start, finish } = useGlobalLoader()
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
 interface CustomFetchOptions {
@@ -84,6 +84,9 @@ export const useCustomFetch = () => {
     baseURL: config.public.apiBaseUrl,
 
     onRequest({ options }) {
+      if (!request.toString().includes('/auth/refresh')) {
+        start()
+      }
       const token = getAccessToken()
       if (token) {
         const headers = new Headers(options.headers)
@@ -91,8 +94,16 @@ export const useCustomFetch = () => {
         options.headers = headers
       }
     },
+    onResponse({ request }) {
+      if (!request.toString().includes('/auth/refresh')) {
+        finish()
+      }
+    },
 
     async onResponseError({ request, options, response }) {
+      if (!request.toString().includes('/auth/refresh')) {
+        finish()
+      }
       if (response.status !== 401) return
 
       try {

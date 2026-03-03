@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.NUXT_API_BASE_URL,
+      locationUrl: `${process.env.NUXT_API_LOCATION_URL}`,
       createUser: `${process.env.NUXT_API_BASE_URL}${process.env.NUXT_API_CREATE_USER_ENDPOINT}`,
       loginUser: `${process.env.NUXT_API_BASE_URL}${process.env.NUXT_API_LOGIN_ENDPOINT}`,
       userProfile: `${process.env.NUXT_API_BASE_URL}${process.env.NUXT_API_USER_PROFILE_ENDPOINT}`,

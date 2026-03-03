@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { getUserLocationUseCase } from '~/useCases/getUserLocationUseCase'
 
 export const useDeliveryStore = defineStore('delivery', {
   state: () => ({
@@ -8,7 +9,7 @@ export const useDeliveryStore = defineStore('delivery', {
   }),
 
   actions: {
-    async checkPincode(pin) {
+    async checkPincode(pin: number) {
 
       this.pincode = pin
 
@@ -22,6 +23,9 @@ export const useDeliveryStore = defineStore('delivery', {
         this.available = false
         this.message = 'Delivery not available'
       }
+    },
+    async getLocation(payload: { latitude: string | number; longitude: string | number; }) {
+      return getUserLocationUseCase(payload)
     }
   }
 })
