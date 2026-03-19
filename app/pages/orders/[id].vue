@@ -1,5 +1,6 @@
 <script setup>
 definePageMeta({
+  middleware: "auth",
   layout: false
 })
 import { useRoute } from 'vue-router'

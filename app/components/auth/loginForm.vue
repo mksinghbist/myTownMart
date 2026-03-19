@@ -5,38 +5,27 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['success', 'switch'])
-
+const { login } = useAuth()
 const form = ref({ phone: '', password: '' })
 const loading = ref(false)
 const error = ref('')
 
-async function login() {
-  loading.value = true
-  error.value = ''
-
+async function userlogin() {
   try {
-    const res: any = await $fetch(`/api/auth/${props.role}/login`, {
-      method: 'POST',
-      body: form.value,
-    })
-
-    localStorage.setItem('token', res.accessToken)
-    localStorage.setItem('role', props.role)
+    const payload = {
+      email: form.value.phone,
+      password: form.value.password
+    }
+    const res =  await login(payload)
     emit('success')
   } catch (e: any) {
     error.value = e?.data?.message || 'Login failed'
-  } finally {
-    loading.value = false
   }
 }
 </script>
 
 <template>
-  <v-form @submit.prevent="login">
-    <v-alert v-if="error" type="error" variant="outlined" class="mb-4">
-      {{ error }}
-    </v-alert>
-
+  <v-form @submit.prevent="userlogin">
     <v-text-field v-model="form.phone" variant="outlined" label="Mobile / Email" />
 
     <v-text-field

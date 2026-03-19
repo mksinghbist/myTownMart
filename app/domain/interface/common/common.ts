@@ -6,3 +6,4 @@ export interface CartItem {
   size: string
   qty: number
 }
+export type UserRole = "ADMIN" | "USER" | "VENDOR";

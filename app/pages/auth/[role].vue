@@ -33,6 +33,11 @@ onMounted(() => {
 })
 
 function onSuccess() {
+  if(role == 'user') {
+    const redirect = route.query.redirect as string || "/"
+    navigateTo(redirect)
+    return 
+  }
   navigateTo(roleConfig[role].dashboard)
 }
 </script>
